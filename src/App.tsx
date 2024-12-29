@@ -5,11 +5,14 @@ const App: React.FC = () => {
 	const { tasks, loading, createTask, updateTask, deleteTask } = useTaskContext();
 	const [newTask, setNewTask] = useState<string>('');
 	const [filter, setFilter] = useState<string>('all');
+	const [loadingTask, setLoadingTask] = useState<string | null>(null);
 
-	const handleCreateTask = () => {
+	const handleCreateTask = async () => {
 		if (newTask) {
-			createTask({ title: newTask, completed: false });
+			setLoadingTask('create');
+			await createTask({ title: newTask, completed: false });
 			setNewTask('');
+			setLoadingTask(null);
 		}
 	};
 
@@ -23,8 +26,16 @@ const App: React.FC = () => {
 		return true;
 	});
 
-	const toggleCompleted = (id: string, completed: boolean) => {
-		updateTask(id, { completed: !completed });
+	const toggleCompleted = async (id: string, completed: boolean) => {
+		setLoadingTask(id);
+		await updateTask(id, { completed: !completed });
+		setLoadingTask(null);
+	};
+
+	const handleDeleteTask = async (id: string) => {
+		setLoadingTask(id);
+		await deleteTask(id);
+		setLoadingTask(null);
 	};
 
 	return (
@@ -36,8 +47,15 @@ const App: React.FC = () => {
 					placeholder="Nueva tarea"
 					className="mr-3 p-2 border rounded"
 				/>
-				<button onClick={handleCreateTask} className="px-4 py-2 bg-blue-500 text-white rounded">
-					Crear tarea
+				<button
+					onClick={handleCreateTask}
+					disabled={loadingTask === 'create'}
+					className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50 relative flex items-center justify-center min-w-[150px] h-[40px]"
+				>
+					{loadingTask === 'create' && (
+						<div className="absolute w-5 h-5 border-4 border-t-transparent border-blue-500 border-solid rounded-full animate-spin"></div>
+					)}
+					<span className={loadingTask === 'create' ? 'opacity-0' : ''}>Crear tarea</span>
 				</button>
 			</div>
 
@@ -61,13 +79,18 @@ const App: React.FC = () => {
 									type="checkbox"
 									checked={task.completed}
 									onChange={() => toggleCompleted(task._id, task.completed)}
+									disabled={loadingTask === task._id}
 									className="mr-2"
 								/>
-								<p className={task.completed ? 'line-through' : ''}>{task.title}</p>
+								<p className={loadingTask === task._id ? 'text-gray-500' : ''}>{task.title}</p>
+								{loadingTask === task._id && (
+									<div className="ml-2 w-5 h-5 text-center border-4 border-t-transparent border-gray-500 border-solid rounded-full animate-spin"></div>
+								)}
 							</div>
 							<button
-								onClick={() => deleteTask(task._id)}
-								className="ml-2 px-3 py-1 text-sm text-white bg-red-500 rounded"
+								onClick={() => handleDeleteTask(task._id)}
+								disabled={loadingTask === task._id}
+								className="ml-2 px-3 py-1 text-sm text-white bg-red-500 rounded disabled:opacity-50 min-w-[150px] h-[40px] flex items-center justify-center"
 							>
 								Eliminar
 							</button>
