@@ -26,7 +26,7 @@ npm install
    Crea un archivo `.env` y agrega:´
 
 ```env
-VITE_API_URL=http://localhost:5000/api
+VITE_API_URL=https://task-manager-server-1py4.onrender.com
 ```
 
 4. Ejecuta el proyecto:
