@@ -8,7 +8,7 @@ const App: React.FC = () => {
 	const [loadingTask, setLoadingTask] = useState<string | null>(null);
 
 	const handleCreateTask = async () => {
-		if (newTask) {
+		if (newTask.trim()) {
 			setLoadingTask('create');
 			await createTask({ title: newTask, completed: false });
 			setNewTask('');
@@ -49,7 +49,7 @@ const App: React.FC = () => {
 				/>
 				<button
 					onClick={handleCreateTask}
-					disabled={loadingTask === 'create'}
+					disabled={loadingTask === 'create' || !newTask.trim()}
 					className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50 relative flex items-center justify-center min-w-[150px] h-[40px]"
 				>
 					{loadingTask === 'create' && (
