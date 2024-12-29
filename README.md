@@ -1,13 +1,50 @@
-# Task Manager Frontend
+# Task Manager - Frontend
 
-## Instrucciones de instalación
+## Descripción
 
-1. Clona el repositorio.
-2. Ve a la carpeta del frontend: `cd task-manager-frontend`
-3. Instala las dependencias: `npm install`
-4. Inicia el servidor de desarrollo: `npm run dev`
-5. Abre la aplicación en tu navegador en [http://localhost:3000](http://localhost:3000).
+Frontend de la aplicación de gestión de tareas **Task Manager**. Permite a los usuarios crear, editar, eliminar y marcar tareas como completadas o pendientes.
 
-## Despliegue
+## Enlace a la aplicación desplegada
 
-Frontend desplegado en [Vercel](https://tu-enlace-vercel.com).
+[https://tomas-aranda-task-manager.netlify.app/](https://tomas-aranda-task-manager.netlify.app/)
+
+## Instalación local
+
+1. Clona el repositorio:
+
+```bash
+git clone https://github.com/TomasDnlAranda/task-manager-client.git
+```
+
+2. Instala las dependencias:
+
+```npm
+npm install
+```
+
+3. Configura las variables de entorno:
+   Crea un archivo `.env` y agrega:´
+
+```env
+VITE_API_URL=http://localhost:5000/api
+```
+
+4. Ejecuta el proyecto:
+
+```npm
+npm run dev
+```
+
+## Funcionalidades
+
+- Lista de tareas con título, estado.
+- Formulario para agregar tareas.
+- Filtro para mostrar tareas completadas, pendientes o todas.
+- Diseño responsivo para desktop y móvil.
+
+## Tecnologías
+
+- React.js
+- Vite
+- TypeScript
+- Tailwind CSS
