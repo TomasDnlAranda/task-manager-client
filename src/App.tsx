@@ -83,6 +83,10 @@ const App: React.FC = () => {
 									className="mr-2"
 								/>
 								<p className={loadingTask === task._id ? 'text-gray-500' : ''}>{task.title}</p>
+								<span className="mx-2">⭐</span>
+								<div className="text-sm text-gray-500">
+									{new Date(task.createdAt).toLocaleString()}
+								</div>
 								{loadingTask === task._id && (
 									<div className="ml-2 w-5 h-5 text-center border-4 border-t-transparent border-gray-500 border-solid rounded-full animate-spin"></div>
 								)}
