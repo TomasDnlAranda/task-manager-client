@@ -37,7 +37,7 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
 	useEffect(() => {
 		const fetchTasks = async () => {
 			try {
-				const response = await axios.get('http://localhost:5000/api/tasks');
+				const response = await axios.get('https://task-manager-server-1py4.onrender.com/api/tasks');
 				setTasks(response.data);
 				setLoading(false);
 			} catch (error) {
@@ -50,7 +50,10 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
 
 	const createTask = async (task: Omit<Task, '_id' | 'createdAt'>) => {
 		try {
-			const response = await axios.post('http://localhost:5000/api/tasks', task);
+			const response = await axios.post(
+				'https://task-manager-server-1py4.onrender.com/api/tasks',
+				task
+			);
 			// Agregar la nueva tarea a las tareas existentes
 			setTasks((prevTasks) => [...prevTasks, response.data]);
 		} catch (error) {
@@ -60,7 +63,7 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
 
 	const updateTask = async (id: string, updatedTask: Partial<Task>) => {
 		try {
-			await axios.put(`http://localhost:5000/api/tasks/${id}`, updatedTask);
+			await axios.put(`https://task-manager-server-1py4.onrender.com/api/tasks/${id}`, updatedTask);
 			setTasks((prevTasks) =>
 				prevTasks.map((task) => (task._id === id ? { ...task, ...updatedTask } : task))
 			);
@@ -71,7 +74,7 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
 
 	const deleteTask = async (id: string) => {
 		try {
-			await axios.delete(`http://localhost:5000/api/tasks/${id}`);
+			await axios.delete(`https://task-manager-server-1py4.onrender.com/api/tasks/${id}`);
 			setTasks((prevTasks) => prevTasks.filter((task) => task._id !== id));
 		} catch (error) {
 			console.error(error);
