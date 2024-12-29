@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Box, Button, Input, Checkbox, List, ListItem, Text, Select, Flex } from '@chakra-ui/react';
 import { useTaskContext } from './context/TaskContext';
 
 const App: React.FC = () => {
@@ -29,48 +28,54 @@ const App: React.FC = () => {
 	};
 
 	return (
-		<Box p={5}>
-			<Flex mb={4} alignItems="center">
-				<Input
+		<div className="p-5">
+			<div className="mb-4 flex items-center">
+				<input
 					value={newTask}
 					onChange={(e) => setNewTask(e.target.value)}
 					placeholder="Nueva tarea"
-					mr={3}
+					className="mr-3 p-2 border rounded"
 				/>
-				<Button onClick={handleCreateTask}>Crear tarea</Button>
-			</Flex>
+				<button onClick={handleCreateTask} className="px-4 py-2 bg-blue-500 text-white rounded">
+					Crear tarea
+				</button>
+			</div>
 
-			<Flex mb={4} alignItems="center">
-				<Text mr={3}>Filtrar tareas:</Text>
-				<Select value={filter} onChange={handleFilterChange} width="200px">
+			<div className="mb-4 flex items-center">
+				<p className="mr-3">Filtrar tareas:</p>
+				<select value={filter} onChange={handleFilterChange} className="w-48 p-2 border rounded">
 					<option value="all">Todas</option>
 					<option value="completed">Completadas</option>
 					<option value="pending">Pendientes</option>
-				</Select>
-			</Flex>
+				</select>
+			</div>
 
 			{loading ? (
-				<Text>Cargando tareas...</Text>
+				<p>Cargando tareas...</p>
 			) : (
-				<List spacing={3}>
+				<ul className="space-y-3">
 					{filteredTasks.map((task) => (
-						<ListItem key={task._id}>
-							<Flex justify="space-between" align="center">
-								<Checkbox
-									isChecked={task.completed}
+						<li key={task._id} className="flex justify-between items-center">
+							<div className="flex items-center">
+								<input
+									type="checkbox"
+									checked={task.completed}
 									onChange={() => toggleCompleted(task._id, task.completed)}
-								>
-									<Text as={task.completed ? 'del' : 'span'}>{task.title}</Text>
-								</Checkbox>
-								<Button onClick={() => deleteTask(task._id)} colorScheme="red" size="sm" ml={2}>
-									Eliminar
-								</Button>
-							</Flex>
-						</ListItem>
+									className="mr-2"
+								/>
+								<p className={task.completed ? 'line-through' : ''}>{task.title}</p>
+							</div>
+							<button
+								onClick={() => deleteTask(task._id)}
+								className="ml-2 px-3 py-1 text-sm text-white bg-red-500 rounded"
+							>
+								Eliminar
+							</button>
+						</li>
 					))}
-				</List>
+				</ul>
 			)}
-		</Box>
+		</div>
 	);
 };
 
